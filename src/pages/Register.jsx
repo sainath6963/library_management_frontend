@@ -46,17 +46,16 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen w-full flex bg-gray-100">
-      {/* Left Section – Enhanced Modern UI */}
+      
       <div
         className="hidden md:flex flex-col justify-between w-1/2 p-14 relative 
     bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden"
       >
-        {/* Floating glowing shapes for modern effect */}
+       
         <div className="absolute -top-10 -left-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-0 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-white/5 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2"></div>
 
-        {/* Main Content */}
         <div className="relative z-10">
           <img
             src={logo_with_title}
@@ -79,19 +78,18 @@ useEffect(() => {
           </p>
         </div>
 
-        {/* Footer */}
         <p className="relative z-10 text-sm text-gray-400 opacity-80">
           © {new Date().getFullYear()} All rights reserved.
         </p>
       </div>
 
-      {/* Right Section */}
+
       <div className="flex justify-center items-center w-full md:w-1/2 px-6 md:px-16 py-10">
         <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl border border-gray-200">
           <h1 className="text-3xl font-bold mb-6 text-gray-800">Register</h1>
 
           <form onSubmit={handleRegister} className="space-y-4">
-            {/* Name */}
+         
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Full Name
@@ -107,7 +105,7 @@ useEffect(() => {
               />
             </div>
 
-            {/* Email */}
+          
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Email Address
@@ -123,7 +121,7 @@ useEffect(() => {
               />
             </div>
 
-            {/* Password */}
+           
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Password
@@ -139,7 +137,7 @@ useEffect(() => {
               />
             </div>
 
-            {/* Submit Button */}
+            
             <button
               type="submit"
               disabled={loading}
@@ -149,7 +147,7 @@ useEffect(() => {
               {loading ? "Creating Account..." : "Register"}
             </button>
 
-            {/* Mobile Login Link */}
+            
             <p className="text-center text-gray-600 text-sm md:hidden">
               Already have an account?
               <Link
