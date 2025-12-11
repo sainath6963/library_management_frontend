@@ -11,7 +11,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, resetAuthSlice } from "../store/slices/authSlice";
 import { toast } from "react-toastify";
-import { toggleAddNewAdminPopup } from "../store/slices/popUpSlice";
+import { toggleAddNewAdminPopup, toggleSettingPopup } from "../store/slices/popUpSlice";
 import AddNewAdmin from "../popups/AddNewAdmin";
 
 const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
@@ -24,7 +24,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
   );
 
   const handleLogout = () => {
-    dispatch(logout); 
+     dispatch(logout()); 
   };
 
   useEffect(() => {
@@ -74,9 +74,9 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
                 <img src={bookIcon} alt="books" className="w-5" />
                 <span className="text-sm font-medium">Books</span>
               </button>
+{isAuthenticated && user?.role==="Admin" && (
 
-          
-            <>
+  <>
             
               <button
                 onClick={() => setSelectedComponent("catalog")}
@@ -99,6 +99,9 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
                 <span className="text-sm font-medium">Users</span>
               </button>
             </>
+)}
+          
+            
           {/* )} */}
 
           {isAuthenticated && user?.role === "User" && (
@@ -108,14 +111,14 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
                 className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-gray-800/50 transition"
               >
                 <img src={catalogIcon} alt="MyBorrowedBooks" className="w-5" />
-                <span className="text-sm font-medium">Books</span>
+                <span className="text-sm font-medium">My Books</span>
               </button>
             </>
           )}
 
           
           <button
-            onClick={() => setSelectedComponent("Settings")}
+            onClick={() => dispatch(toggleSettingPopup())}
             className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-gray-800/50 transition"
           >
             <img src={settingIcon} alt="settings" className="w-5" />
