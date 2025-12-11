@@ -59,7 +59,7 @@ const Header = () => {
         </div>
 
       
-        <button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition" onClick={()=>toggleSettingPopup()}>
+        <button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition" onClick={()=>dispatch(toggleSettingPopup())}>
           <img src={settingIcon} className="w-6 h-6" alt="settings" />
         </button>
       </div>

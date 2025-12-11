@@ -282,6 +282,7 @@ export const resetPassword = (data, token) => async (dispatch) => {
 
 export const UpdatePassword = (data) => async (dispatch) => {
   dispatch(authSlice.actions.updatePasswordRequest());
+
   await axios
     .put("http://localhost:4000/api/v1/auth/password/update", data, {
       withCredentials: true,
@@ -298,5 +299,6 @@ export const UpdatePassword = (data) => async (dispatch) => {
       );
     });
 };
+
 
 export default authSlice.reducer;

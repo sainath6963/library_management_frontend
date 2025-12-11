@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import closeIcon from "../assets/close-square.png";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSettingPopup } from "../store/slices/popUpSlice";
+import { UpdatePassword } from "../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const SettingPopup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { loading, isUpdated } = useSelector((state) => state.auth);
   const showPopup = useSelector((state) => state.popup.settingPopup);
 
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  
+  useEffect(() => {
+    if (isUpdated) {
+      dispatch(toggleSettingPopup());
+      navigate("/login");
+    }
+  }, [isUpdated]);
+
   if (!showPopup) return null;
+
+  const handleUpdatePassword = (e) => {
+    e.preventDefault();
+
+    const data = {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    };
+
+    dispatch(UpdatePassword(data));
+  };
 
   return (
     <div
@@ -15,83 +44,71 @@ const SettingPopup = () => {
       onClick={() => dispatch(toggleSettingPopup())}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl p-6 w-[90%] max-w-lg animate-[fadeIn_.25s_ease]"
-        style={{ animation: "popupScale 0.25s ease" }}
+        className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-6 w-[90%] max-w-xl animate-[popupScale_.3s_ease] border border-white/40 relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-700">Settings</h2>
+       
+        <div className="flex justify-between items-center mb-4 border-b pb-3">
+          <h2 className="text-2xl font-semibold text-gray-800">Settings</h2>
           <button
             onClick={() => dispatch(toggleSettingPopup())}
             className="hover:scale-110 transition"
           >
-            <img src={closeIcon} className="w-6 h-6" alt="close" />
+            <img src={closeIcon} className="w-7 h-7" alt="close" />
           </button>
         </div>
 
-        {/* Body */}
-        <div className="space-y-6">
-          {/* Theme Switch */}
-          <div className="flex items-center justify-between">
-            <span className="text-gray-700 font-medium">Dark Mode</span>
-            <label className="relative inline-flex cursor-pointer items-center">
-              <input type="checkbox" className="peer sr-only" />
-              <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-1 after:top-1
-                after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:bg-blue-600
-                peer-checked:after:translate-x-5"></div>
-            </label>
-          </div>
+        
+        <form
+          onSubmit={handleUpdatePassword}
+          className="bg-gray-50 p-4 rounded-lg border shadow-sm space-y-4"
+        >
+          <label className="text-sm font-medium text-gray-700">
+            Change Password
+          </label>
 
-          {/* Notification Switch */}
-          <div className="flex items-center justify-between">
-            <span className="text-gray-700 font-medium">Notifications</span>
-            <label className="relative inline-flex cursor-pointer items-center">
-              <input type="checkbox" defaultChecked className="peer sr-only" />
-              <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-1 after:top-1
-                after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:bg-green-500
-                peer-checked:after:translate-x-5"></div>
-            </label>
-          </div>
+          <input
+            type="password"
+            placeholder="Current password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+          />
 
-          {/* Update Username */}
-          <div>
-            <label className="text-sm text-gray-600">Update Username</label>
-            <input
-              type="text"
-              placeholder="Enter new username"
-              className="w-full p-2 border rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="New password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+          />
 
-          {/* Update Password */}
-          <div>
-            <label className="text-sm text-gray-600">Change Password</label>
-            <input
-              type="password"
-              placeholder="New password"
-              className="w-full p-2 border rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
-        </div>
+          <input
+            type="password"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+          />
 
-        {/* Footer */}
-        <div className="mt-6 flex justify-end">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            Save Changes
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+          >
+            {loading ? "Updating..." : "Update Password"}
           </button>
-        </div>
+        </form>
+
+        
+        <style>
+          {`
+            @keyframes popupScale {
+              0% { transform: scale(0.85); opacity: 0; }
+              100% { transform: scale(1); opacity: 1; }
+            }
+          `}
+        </style>
       </div>
-
-      {/* Animations */}
-      <style>
-        {`
-          @keyframes popupScale {
-            0% { transform: scale(0.85); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-        `}
-      </style>
     </div>
   );
 };
